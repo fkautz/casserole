@@ -1,0 +1,17 @@
+version: '2'
+services:
+    etcd:
+        image: quay.io/coreos/etcd:latest
+        ports:
+            - "2379"
+            - "2380"
+        command: etcd --listen-client-urls="http://0.0.0.0:2379" --advertise-client-urls="http://${HOSTNAME}:2379"
+    cache:
+        build: ../..
+        #image: fkautz/casserole
+        depends_on:
+            - etcd
+        ports:
+            - "80"
+        environment:
+            - UPSTREAM_SERVER=https://www.google.com
