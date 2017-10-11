@@ -151,9 +151,9 @@ func (dc *diskCache) Shutdown() error {
 
 type entryHeap []entry
 
-func (h entryHeap) Len() int            { return len(h) }
-func (h entryHeap) Less(i, j int) bool  { return h[i].lastHit.Before(h[j].lastHit) }
-func (h entryHeap) Swap(i, j int)       {
+func (h entryHeap) Len() int           { return len(h) }
+func (h entryHeap) Less(i, j int) bool { return h[i].lastHit.Before(h[j].lastHit) }
+func (h entryHeap) Swap(i, j int) {
 	h[i], h[j] = h[j], h[i]
 }
 func (h *entryHeap) Push(x interface{}) { *h = append(*h, x.(entry)) }

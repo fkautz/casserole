@@ -22,4 +22,3 @@ type Hydrator interface {
 	GetMetadata(url string) (*CacheEntry, error)
 	ForceGet(url string) (*http.Response, error)
 }
-

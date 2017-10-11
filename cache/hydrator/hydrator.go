@@ -3,13 +3,15 @@ package hydrator
 import (
 	"crypto/tls"
 	"errors"
-	"github.com/pquerna/cachecontrol/cacheobject"
-	"log"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
+
+	"github.com/pquerna/cachecontrol/cacheobject"
 )
 
 func NewHydrator(urlRoot string) Hydrator {
@@ -96,6 +98,13 @@ func (h *hydratorImpl) GetMetadata(key string) (*CacheEntry, error) {
 	SetIfNotEmpty(metadata, response.Header, "Content-Type")
 	SetIfNotEmpty(metadata, response.Header, "Etag")
 	SetIfNotEmpty(metadata, response.Header, "Last-Modified")
+	metadata["Last-Modified"] = strings.Replace(metadata["Last-Modified"], "+", " ", -1)
+
+	for _, v := range response.TransferEncoding {
+		if v == "chunked" {
+			metadata["Transfer-Encoding"] = "chunked"
+		}
+	}
 
 	// Always set
 	metadata["X-Cache-Date-Retrieved"] = response.Header.Get("Date")
@@ -108,7 +117,7 @@ func (h *hydratorImpl) GetMetadata(key string) (*CacheEntry, error) {
 	//metadata["Last-Modified"] = response.Header.Get("Last-Modified")
 
 	cacheResults, err := getCacheResult(request, response)
-	log.Println(cacheResults)
+	//log.Println(cacheResults)
 	if err != nil {
 		return nil, err
 	}

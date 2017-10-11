@@ -15,18 +15,19 @@
 package cmd
 
 import (
+	"log"
+	"net/http"
+	"os"
+
 	"github.com/fkautz/casserole/cache/diskcache"
 	"github.com/fkautz/casserole/cache/httpserver"
 	"github.com/fkautz/casserole/cache/hydrator"
 	"github.com/fkautz/casserole/cache/memorycache"
-	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 	"github.com/pivotal-golang/bytefmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"log"
-	"net/http"
-	"os"
 )
 
 // flags
@@ -40,7 +41,7 @@ var (
 	mirrorUrl        string
 	peeringAddress   string
 	etcd             []string
-	passthrough []string
+	passthrough      []string
 )
 
 func InitializeConfig(cmd *cobra.Command) {

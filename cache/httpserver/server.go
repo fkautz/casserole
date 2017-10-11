@@ -42,11 +42,11 @@ func (s *httpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// get object
 	cacheEntry, err := s.cache.GetMetadata(request, r.Header)
+	canonicalRequest := viper.GetString("mirror-url") + "/" + request
 	if err != nil {
-		if err.Error() == "Not Cacheable" {
+		if err.Error() == "Not Cacheable" || err.Error() == "Chunked" {
 			log.Println("MISS", request)
-			resp, err := s.cache.ForceGet(viper.GetString("mirror-url") + "/" + request)
-			//resp, err := http.Get(viper.GetString("mirror-url") + "/" + request)
+			resp, err := s.cache.ForceGet(canonicalRequest)
 			if err != nil {
 				log.Println(err)
 				w.WriteHeader(404)
@@ -68,6 +68,22 @@ func (s *httpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add(k, v)
 	}
 
+	cacheCopy := make(map[string]string)
+
+	for k, v := range cacheEntry.Metadata {
+		cacheCopy[k] = v
+	}
+
+	if k, ok := cacheCopy["Last-Modified"]; ok {
+		cacheCopy["Last-Modified"] = strings.Replace(k, " ", "+", -1)
+	}
+
+	if k, ok := cacheCopy["X-Cache-Date-Retrieved"]; ok {
+		cacheCopy["X-Cache-Date-Retrieved"] = strings.Replace(k, " ", "+", -1)
+	}
+
+	cacheEntry.Metadata = cacheCopy
+
 	// if head, get metadata
 	if r.Method == "HEAD" {
 		w.WriteHeader(200)
@@ -75,9 +91,14 @@ func (s *httpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	reader, err := s.cache.Get(request, cacheEntry)
+	if reader == nil {
+		return
+	}
 
 	if w.Header().Get("Content-Length") == "" {
-		w.Header().Add("Content-Length", strconv.FormatInt(reader.Size(), 10))
+		if reader != nil {
+			w.Header().Add("Content-Length", strconv.FormatInt(reader.Size(), 10))
+		}
 	}
 
 	// server
