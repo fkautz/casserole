@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:d1a104572273cfb58e801812704dca4fe2eab80f3b0144592a722a76c280c598"
+  name = "code.cloudfoundry.org/bytefmt"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2aa6f33b730c79971cfc3c742f279195b0abc627"
+
+[[projects]]
   digest = "1:0f98f59e9a2f4070d66f0c9c39561f68fcd1dc837b22a852d28d0003aebd1b1e"
   name = "github.com/boltdb/bolt"
   packages = ["."]
@@ -163,13 +171,6 @@
   pruneopts = "UT"
   revision = "5ccdfb18c776b740aecaf085c4d9a2779199c279"
   version = "v1.0.0"
-
-[[projects]]
-  digest = "1:60ecdb979d3ba31ffc4c8410bd50d59245eebf959bdf357bce7278bd31f6ce93"
-  name = "github.com/pivotal-golang/bytefmt"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "b12c1522f4cbb5f35861bd5dd2c39a4fa996441a"
 
 [[projects]]
   digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
@@ -349,6 +350,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "code.cloudfoundry.org/bytefmt",
     "github.com/boltdb/bolt",
     "github.com/coreos/etcd/client",
     "github.com/coreos/etcd/clientv3",
@@ -357,7 +359,6 @@
     "github.com/golang/groupcache",
     "github.com/gorilla/handlers",
     "github.com/gorilla/mux",
-    "github.com/pivotal-golang/bytefmt",
     "github.com/pquerna/cachecontrol/cacheobject",
     "github.com/spf13/cobra",
     "github.com/spf13/pflag",
