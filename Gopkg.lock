@@ -18,7 +18,7 @@
   version = "v1.3.1"
 
 [[projects]]
-  digest = "1:f8a5d27fcfd9e15db6fb49b2f7944733dfc739adb5a8ff749adddcdce12d61da"
+  digest = "1:449b4bd8bcf50e23e54b1be4fc315bf4403e0ad732ebaa7ec4722bc75ceafd76"
   name = "github.com/coreos/etcd"
   packages = [
     "auth/authpb",
@@ -33,8 +33,8 @@
     "version",
   ]
   pruneopts = "UT"
-  revision = "9d43462d174c664f5edf313dec0de31e1ef4ed47"
-  version = "v3.2.6"
+  revision = "2cf9e51d2a78003b164c2998886158e60ded1cbb"
+  version = "v3.3.11"
 
 [[projects]]
   digest = "1:0ef770954bca104ee99b3b6b7f9b240605ac03517d9f98cbc1893daa03f3c038"
@@ -67,6 +67,18 @@
   revision = "bd2828f9f176e52d7222e565abb2d338d3f3c103"
 
 [[projects]]
+  digest = "1:a9c85389dbd301c97a3499fe15a2b65b505b5f0cb0f1120dea59f1f3d6b11d96"
+  name = "github.com/gogo/protobuf"
+  packages = [
+    "gogoproto",
+    "proto",
+    "protoc-gen-gogo/descriptor",
+  ]
+  pruneopts = "UT"
+  revision = "4cbf7e384e768b4e01799441fdf2a706a5635ae7"
+  version = "v1.2.0"
+
+[[projects]]
   digest = "1:20134446d81a6f3a7cb2be8b09aa5ce0c9357d2e394591ec9d09c4a64dffde8e"
   name = "github.com/golang/groupcache"
   packages = [
@@ -80,9 +92,15 @@
   revision = "02826c3e79038b59d737d3b1c0a1d937f71a4433"
 
 [[projects]]
-  digest = "1:362005af64e654bd2658f49c136b48e68df9a6d38c4a79349b4ea7fe068956e2"
+  digest = "1:9a832445f868f891095e433ebfad948a2cc946c722abdc745f8cab58bf7c1ef3"
   name = "github.com/golang/protobuf"
-  packages = ["proto"]
+  packages = [
+    "proto",
+    "ptypes",
+    "ptypes/any",
+    "ptypes/duration",
+    "ptypes/timestamp",
+  ]
   pruneopts = "UT"
   revision = "4bd1920723d7b7c925de087aa32e2187708897f7"
 
@@ -319,25 +337,53 @@
   revision = "5a42fa2464759cbb7ee0af9de00b54d69f09a29c"
 
 [[projects]]
-  digest = "1:2b235a29dd809925b0149f8625d9b9f8dcb92fdb6f1f661ac6188e419098cd96"
+  branch = "master"
+  digest = "1:077c1c599507b3b3e9156d17d36e1e61928ee9b53a5b420f10f28ebd4a0b275c"
+  name = "google.golang.org/genproto"
+  packages = ["googleapis/rpc/status"]
+  pruneopts = "UT"
+  revision = "8819c946db4494a2259bf100a377f51aa585d893"
+
+[[projects]]
+  digest = "1:6dfe7f3314a390dc9e21368dd41236169bf40ae69674f42b7bd45db537751a94"
   name = "google.golang.org/grpc"
   packages = [
     ".",
+    "balancer",
+    "balancer/base",
+    "balancer/roundrobin",
+    "binarylog/grpc_binarylog_v1",
     "codes",
+    "connectivity",
     "credentials",
+    "credentials/internal",
+    "encoding",
+    "encoding/proto",
     "grpclog",
+    "health/grpc_health_v1",
     "internal",
+    "internal/backoff",
+    "internal/binarylog",
+    "internal/channelz",
+    "internal/envconfig",
+    "internal/grpcrand",
+    "internal/grpcsync",
+    "internal/syscall",
+    "internal/transport",
     "keepalive",
     "metadata",
     "naming",
     "peer",
+    "resolver",
+    "resolver/dns",
+    "resolver/passthrough",
     "stats",
+    "status",
     "tap",
-    "transport",
   ]
   pruneopts = "UT"
-  revision = "8050b9cbc271307e5a716a9d782803d09b0d6f2d"
-  version = "v1.2.1"
+  revision = "a02b0774206b209466313a0b525d2c738fe407eb"
+  version = "v1.18.0"
 
 [[projects]]
   digest = "1:cacb98d52c60c337c2ce95a7af83ba0313a93ce5e73fa9e99a96aff70776b9d3"
