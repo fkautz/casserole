@@ -87,14 +87,6 @@
   revision = "4bd1920723d7b7c925de087aa32e2187708897f7"
 
 [[projects]]
-  digest = "1:c79fb010be38a59d657c48c6ba1d003a8aa651fa56b579d959d74573b7dff8e1"
-  name = "github.com/gorilla/context"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "08b5f424b9271eedf6f9f0ce86cb9396ed337a42"
-  version = "v1.1.1"
-
-[[projects]]
   digest = "1:4dd70d4e47ff713e8b6f904894fec98e51fe276307a570934d0f9061757e6bf5"
   name = "github.com/gorilla/handlers"
   packages = ["."]
@@ -103,12 +95,12 @@
   version = "v1.2.1"
 
 [[projects]]
-  digest = "1:dc10acb30ea3555604b64a0463d86e5901fc7d855299b96ab8fb0fae57ad8b0e"
+  digest = "1:ca59b1175189b3f0e9f1793d2c350114be36eaabbe5b9f554b35edee1de50aea"
   name = "github.com/gorilla/mux"
   packages = ["."]
   pruneopts = "UT"
-  revision = "bcd8bc72b08df0f70df986b97f95590779502d31"
-  version = "v1.4.0"
+  revision = "a7962380ca08b5a188038c69871b8d3fbdf31e89"
+  version = "v1.7.0"
 
 [[projects]]
   digest = "1:6514d79bcf7983e52c7f42ae634c61054af5e9b17c261a542f2e3272146b08df"
