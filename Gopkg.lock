@@ -18,7 +18,7 @@
   version = "v1.3.1"
 
 [[projects]]
-  digest = "1:f8a5d27fcfd9e15db6fb49b2f7944733dfc739adb5a8ff749adddcdce12d61da"
+  digest = "1:cf33b03454f4a04a26fe4599edb68a033d01fa060c96379a14fca5594b50fec8"
   name = "github.com/coreos/etcd"
   packages = [
     "auth/authpb",
@@ -33,8 +33,8 @@
     "version",
   ]
   pruneopts = "UT"
-  revision = "9d43462d174c664f5edf313dec0de31e1ef4ed47"
-  version = "v3.2.6"
+  revision = "98d308426819d892e149fe45f6fd542464cb1f9d"
+  version = "v3.3.13"
 
 [[projects]]
   digest = "1:0ef770954bca104ee99b3b6b7f9b240605ac03517d9f98cbc1893daa03f3c038"
@@ -67,6 +67,18 @@
   revision = "bd2828f9f176e52d7222e565abb2d338d3f3c103"
 
 [[projects]]
+  digest = "1:4652941215f23c7ad6546bab86964c72248a1134baa53f0df618661344ba5cac"
+  name = "github.com/gogo/protobuf"
+  packages = [
+    "gogoproto",
+    "proto",
+    "protoc-gen-gogo/descriptor",
+  ]
+  pruneopts = "UT"
+  revision = "ba06b47c162d49f2af050fb4c75bcbc86a159d5c"
+  version = "v1.2.1"
+
+[[projects]]
   digest = "1:20134446d81a6f3a7cb2be8b09aa5ce0c9357d2e394591ec9d09c4a64dffde8e"
   name = "github.com/golang/groupcache"
   packages = [
@@ -80,9 +92,15 @@
   revision = "02826c3e79038b59d737d3b1c0a1d937f71a4433"
 
 [[projects]]
-  digest = "1:362005af64e654bd2658f49c136b48e68df9a6d38c4a79349b4ea7fe068956e2"
+  digest = "1:9a832445f868f891095e433ebfad948a2cc946c722abdc745f8cab58bf7c1ef3"
   name = "github.com/golang/protobuf"
-  packages = ["proto"]
+  packages = [
+    "proto",
+    "ptypes",
+    "ptypes/any",
+    "ptypes/duration",
+    "ptypes/timestamp",
+  ]
   pruneopts = "UT"
   revision = "4bd1920723d7b7c925de087aa32e2187708897f7"
 
@@ -136,6 +154,14 @@
   version = "v1.0"
 
 [[projects]]
+  digest = "1:f5a2051c55d05548d2d4fd23d244027b59fbd943217df8aa3b5e170ac2fd6e1b"
+  name = "github.com/json-iterator/go"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "0ff49de124c6f76f8494e194af75bde0f1a49a29"
+  version = "v1.1.6"
+
+[[projects]]
   digest = "1:81780a09277ee80f2bfbb90da6f51b5de95423db6cde8ff6d72cd20eba989bba"
   name = "github.com/kr/fs"
   packages = ["."]
@@ -155,6 +181,22 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "f3009df150dadf309fdee4a54ed65c124afad715"
+
+[[projects]]
+  digest = "1:33422d238f147d247752996a26574ac48dcf472976eda7f5134015f06bf16563"
+  name = "github.com/modern-go/concurrent"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94"
+  version = "1.0.3"
+
+[[projects]]
+  digest = "1:e32bdbdb7c377a07a9a46378290059822efdce5c8d96fe71940d87cb4f918855"
+  name = "github.com/modern-go/reflect2"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4b7aa43c6742a2c18fdef89dd197aaae7dac7ccd"
+  version = "1.0.1"
 
 [[projects]]
   digest = "1:b2ee62e09bec113cf086d2ce0769efcc7bf79481aba8373fd8f7884e94df3462"
@@ -266,13 +308,6 @@
   version = "v1.1.4"
 
 [[projects]]
-  digest = "1:a02bd33c56ab567d53246eeb40c76810c339af9fff7e43b5dd266f7d58d7ca4a"
-  name = "github.com/ugorji/go"
-  packages = ["codec"]
-  pruneopts = "UT"
-  revision = "ded73eae5db7e7a0ef6f55aace87a2873c5d2b74"
-
-[[projects]]
   digest = "1:9fde240fe848d5015fe5941d306c07013caf5a7518ee9b22051f368444035397"
   name = "golang.org/x/crypto"
   packages = ["ssh"]
@@ -319,25 +354,54 @@
   revision = "5a42fa2464759cbb7ee0af9de00b54d69f09a29c"
 
 [[projects]]
-  digest = "1:2b235a29dd809925b0149f8625d9b9f8dcb92fdb6f1f661ac6188e419098cd96"
+  branch = "master"
+  digest = "1:c3076e7defee87de1236f1814beb588f40a75544c60121e6eb38b3b3721783e2"
+  name = "google.golang.org/genproto"
+  packages = ["googleapis/rpc/status"]
+  pruneopts = "UT"
+  revision = "54afdca5d873f7b529e2ce3def1a99df16feda90"
+
+[[projects]]
+  digest = "1:a1f1707d71a652caa4da563d6a98e1d1cf3a1500dec7059e5989753b09112e27"
   name = "google.golang.org/grpc"
   packages = [
     ".",
+    "balancer",
+    "balancer/base",
+    "balancer/roundrobin",
+    "binarylog/grpc_binarylog_v1",
     "codes",
+    "connectivity",
     "credentials",
+    "credentials/internal",
+    "encoding",
+    "encoding/proto",
     "grpclog",
+    "health/grpc_health_v1",
     "internal",
+    "internal/backoff",
+    "internal/balancerload",
+    "internal/binarylog",
+    "internal/channelz",
+    "internal/envconfig",
+    "internal/grpcrand",
+    "internal/grpcsync",
+    "internal/syscall",
+    "internal/transport",
     "keepalive",
     "metadata",
     "naming",
     "peer",
+    "resolver",
+    "resolver/dns",
+    "resolver/passthrough",
     "stats",
+    "status",
     "tap",
-    "transport",
   ]
   pruneopts = "UT"
-  revision = "8050b9cbc271307e5a716a9d782803d09b0d6f2d"
-  version = "v1.2.1"
+  revision = "25c4f928eaa6d96443009bd842389fb4fa48664e"
+  version = "v1.20.1"
 
 [[projects]]
   digest = "1:cacb98d52c60c337c2ce95a7af83ba0313a93ce5e73fa9e99a96aff70776b9d3"
