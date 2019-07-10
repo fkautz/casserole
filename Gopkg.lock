@@ -96,12 +96,12 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:664d37ea261f0fc73dd17f4a1f5f46d01fbb0b0d75f6375af064824424109b7d"
+  digest = "1:bf3f2edc757b0fcee5946f9c88c3531b3766cde4195f9c5956fc4a84b72b0699"
   name = "github.com/gorilla/handlers"
   packages = ["."]
   pruneopts = "UT"
-  revision = "7e0847f9db758cdebd26c149d0ae9d5d0b9c98ce"
-  version = "v1.4.0"
+  revision = "415c4810185c26aa35ca0315470d77697000794b"
+  version = "v1.4.1"
 
 [[projects]]
   digest = "1:dc10acb30ea3555604b64a0463d86e5901fc7d855299b96ab8fb0fae57ad8b0e"
