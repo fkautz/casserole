@@ -3,11 +3,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:d1a104572273cfb58e801812704dca4fe2eab80f3b0144592a722a76c280c598"
+  digest = "1:805d31e8de22d8be01b05e29eb3d1a02e512c9d437724372afe3e9cd45a1cf87"
   name = "code.cloudfoundry.org/bytefmt"
   packages = ["."]
   pruneopts = "UT"
-  revision = "2aa6f33b730c79971cfc3c742f279195b0abc627"
+  revision = "854d396b647c90b5a45646f9dcc2c9cd08ea8d51"
 
 [[projects]]
   digest = "1:0f98f59e9a2f4070d66f0c9c39561f68fcd1dc837b22a852d28d0003aebd1b1e"
