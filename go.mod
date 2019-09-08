@@ -39,6 +39,6 @@ require (
 	golang.org/x/net v0.0.0-20170421002609-c8c74377599b
 	golang.org/x/sys v0.0.0-20170303135930-e48874b42435
 	golang.org/x/text v0.0.0-20161020133420-5a42fa246475
-	google.golang.org/grpc v1.2.1
+	google.golang.org/grpc v1.23.0
 	gopkg.in/yaml.v2 v2.0.0-20160928153709-a5b47d31c556
 )
