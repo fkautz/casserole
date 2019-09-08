@@ -21,7 +21,7 @@ require (
 	github.com/magiconair/properties v1.7.1-0.20160908093658-0723e352fa35
 	github.com/mitchellh/mapstructure v0.0.0-20161020161836-f3009df150da
 	github.com/pelletier/go-buffruneio v0.2.0
-	github.com/pelletier/go-toml v1.0.0
+	github.com/pelletier/go-toml v1.4.0
 	github.com/pkg/errors v0.8.1-0.20161002052512-839d9e913e06
 	github.com/pkg/sftp v0.0.0-20160930220758-4d0e916071f6
 	github.com/pmezard/go-difflib v1.0.0
