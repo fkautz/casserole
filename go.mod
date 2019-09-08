@@ -32,7 +32,7 @@ require (
 	github.com/spf13/jwalterweatherman v0.0.0-20160311093646-33c24e77fb80
 	github.com/spf13/pflag v1.0.3
 	github.com/spf13/viper v0.0.0-20161014092445-50515b700e02
-	github.com/stretchr/objx v0.1.1
+	github.com/stretchr/objx v0.2.0
 	github.com/stretchr/testify v1.3.0
 	github.com/ugorji/go v0.0.0-20170107133203-ded73eae5db7
 	golang.org/x/crypto v0.0.0-20150218234220-1351f936d976
