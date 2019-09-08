@@ -6,7 +6,7 @@ require (
 	code.cloudfoundry.org/bytefmt v0.0.0-20180906201452-2aa6f33b730c
 	github.com/boltdb/bolt v1.3.1
 	github.com/coreos/etcd v3.2.6+incompatible
-	github.com/coreos/go-semver v0.2.0
+	github.com/coreos/go-semver v0.3.0
 	github.com/davecgh/go-spew v1.1.1
 	github.com/fkautz/peertracker v0.0.0-20160707070610-0807e938a098
 	github.com/fsnotify/fsnotify v1.4.3-0.20161013012219-bd2828f9f176
