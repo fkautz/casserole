@@ -21,3 +21,9 @@ jobs:
 
     - name: Build
       run: go build -v .
+    
+    - name: Set up Kubernetes
+      uses: engineerd/setup-kind@v0.1.0
+      run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
+        kubectl cluster-info
