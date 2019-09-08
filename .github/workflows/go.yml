@@ -31,6 +31,6 @@ jobs:
         kubectl cluster-info
 
     - name: Install casserole
-      uses: docker/cli
-      args: ["build"]
+      uses: actions/docker/cli
+      args: "built -t fkautz/casserole:dev ."
         
