@@ -47,7 +47,7 @@ jobs:
         kubectl apply -f utils/k8s/etcd-service.yaml
         kubectl apply -f utils/k8s/etcd-deployment.yaml
         kubectl apply -f utils/k8s/cache-service.yaml
-        kubectl apply -f utils/cache-deployment.yaml
+        kubectl apply -f utils/k8s/cache-deployment.yaml
         sleep 10
 
     - name: Check running
