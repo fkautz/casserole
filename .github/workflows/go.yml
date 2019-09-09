@@ -31,7 +31,7 @@ jobs:
         kubectl cluster-info
 
     - name: Install casserole
-      uses: actions/docker/cli
+      uses: actions/docker/cli@master
       
     - name: Build container
       run: |
