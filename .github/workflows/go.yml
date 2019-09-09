@@ -36,3 +36,19 @@ jobs:
     - name: Build container
       run: |
         docker build -t fkautz/casserole:dev .
+    
+    - name: Load casserole
+      run: |
+        kind load docker-image fkautz/casserole:dev
+    
+    - name: Install casserole
+      run: |
+        kubectl apply -f utils/k8s/etcd-service.yaml
+        kubectl apply -f utils/k8s/etcd-deployment.yaml
+        kubectl apply -f utils/k8s/cache-service.yaml
+        kubectl apply -f utils/cache-deployment.yaml
+        sleep 10
+
+    - name: Check running
+      run: |
+        kubectl get pods -o wide
