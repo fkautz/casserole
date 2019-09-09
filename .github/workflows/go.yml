@@ -52,4 +52,5 @@ jobs:
 
     - name: Check running
       run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
         kubectl get pods -o wide
