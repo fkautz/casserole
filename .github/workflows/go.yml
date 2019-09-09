@@ -32,5 +32,7 @@ jobs:
 
     - name: Install casserole
       uses: actions/docker/cli
-      args: "built -t fkautz/casserole:dev ."
-        
+      
+    - name: Build container
+      run: |
+        docker build -t fkautz/casserole:dev .
