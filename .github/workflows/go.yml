@@ -43,6 +43,7 @@ jobs:
     
     - name: Install casserole
       run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
         kubectl apply -f utils/k8s/etcd-service.yaml
         kubectl apply -f utils/k8s/etcd-deployment.yaml
         kubectl apply -f utils/k8s/cache-service.yaml
