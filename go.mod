@@ -5,7 +5,7 @@ go 1.13
 require (
 	code.cloudfoundry.org/bytefmt v0.0.0-20190819182555-854d396b647c
 	github.com/boltdb/bolt v1.3.1
-	github.com/coreos/etcd v3.3.15+incompatible
+	github.com/coreos/etcd v3.3.20+incompatible
 	github.com/fkautz/peertracker v0.0.0-20160707070610-0807e938a098
 	github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6
 	github.com/google/uuid v1.1.1 // indirect
