@@ -21,3 +21,36 @@ jobs:
 
     - name: Build
       run: go build -v .
+    
+    - name: Set up Kubernetes
+      uses: engineerd/setup-kind@v0.1.0
+    
+    - name: Set up kubeconfig
+      run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
+        kubectl cluster-info
+
+    - name: Install casserole
+      uses: actions/docker/cli@master
+      
+    - name: Build container
+      run: |
+        docker build -t fkautz/casserole:dev .
+    
+    - name: Load casserole
+      run: |
+        kind load docker-image fkautz/casserole:dev
+    
+    - name: Install casserole
+      run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
+        kubectl apply -f utils/k8s/etcd-service.yaml
+        kubectl apply -f utils/k8s/etcd-deployment.yaml
+        kubectl apply -f utils/k8s/cache-service.yaml
+        kubectl apply -f utils/k8s/cache-deployment.yaml
+        sleep 10
+
+    - name: Check running
+      run: |
+        export KUBECONFIG="$(kind get kubeconfig-path)"
+        kubectl get pods -o wide

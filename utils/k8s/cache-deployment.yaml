@@ -21,7 +21,7 @@ spec:
           value: https://example.com
         - name: ETCD
           value: http://etcd:2379
-        image: theterabyte/casserole:latest
+        image: fkautz/casserole:dev
         name: cache
         ports:
         - containerPort: 80
