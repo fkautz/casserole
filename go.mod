@@ -10,7 +10,7 @@ require (
 	github.com/fkautz/peertracker v0.0.0-20160707070610-0807e938a098
 	github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6
 	github.com/google/uuid v1.1.1 // indirect
-	github.com/gorilla/handlers v1.4.2
+	github.com/gorilla/handlers v1.5.0
 	github.com/gorilla/mux v1.7.4
 	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/pquerna/cachecontrol v0.0.0-20180517163645-1555304b9b35
