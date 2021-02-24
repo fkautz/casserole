@@ -1,21 +1,18 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: etcd
   name: etcd
+  labels:
+    app: etcd
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app: etcd
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        io.kompose.service: etcd
+        app: etcd
     spec:
       containers:
         - args:
