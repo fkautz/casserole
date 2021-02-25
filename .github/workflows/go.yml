@@ -23,7 +23,7 @@ jobs:
       run: go build -v .
     
     - name: Set up Kubernetes
-      uses: engineerd/setup-kind@v0.1.0
+      uses: engineerd/setup-kind@v0.5.0
     
     - name: Set up kubeconfig
       run: |
