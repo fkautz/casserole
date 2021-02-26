@@ -21,6 +21,12 @@ jobs:
 
     - name: Build
       run: go build -v .
+
+    - name: Pull test deps
+      run: go get -t github.com/fkautz/casserole/cache/memorycache
+
+    - name: Run tests
+      run: go test ./...
     
     - name: Set up Kubernetes
       uses: engineerd/setup-kind@v0.5.0
