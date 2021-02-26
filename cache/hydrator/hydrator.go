@@ -20,7 +20,7 @@ func NewHydrator(urlRoot string) Hydrator {
 	}
 	client.Transport = &http.Transport{
 		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true,
+			InsecureSkipVerify: false,
 		},
 		IdleConnTimeout:     30 * time.Second,
 		MaxIdleConns:        0,
