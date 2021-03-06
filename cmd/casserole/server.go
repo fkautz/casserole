@@ -21,6 +21,7 @@ import (
 	"os"
 
 	"code.cloudfoundry.org/bytefmt"
+	"github.com/kelseyhightower/envconfig"
 	"github.com/fkautz/casserole/cache/diskcache"
 	"github.com/fkautz/casserole/cache/httpserver"
 	"github.com/fkautz/casserole/cache/hydrator"
@@ -33,7 +34,6 @@ import (
 
 // flags
 var (
-	address          string
 	cleanedDiskUsage string
 	diskCacheDir     string
 	diskCacheEnabled bool
@@ -46,11 +46,16 @@ var (
 )
 
 type Config struct {
-	Address string `default:":8080"`
+	Address string `default:"localhost:8080"`
 }
 
+var config Config
+
 func InitializeConfig(cmd *cobra.Command) {
-	viper.SetDefault("address", ":8080")
+	err := envconfig.Process("casserole", &config)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 	viper.SetDefault("cleaned-disk-usage", "800M")
 	viper.SetDefault("disk-cache-dir", "./data")
 	viper.SetDefault("disk-cache-enabled", true)
@@ -61,9 +66,6 @@ func InitializeConfig(cmd *cobra.Command) {
 	viper.SetDefault("etcd", "")
 	viper.SetDefault("passthrough", "")
 
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "address") {
-		viper.Set("address", address)
-	}
 	if cmd2.FlagChanged(cmd.PersistentFlags(), "cleaned-disk-usage") {
 		viper.Set("cleaned-disk-usage", cleanedDiskUsage)
 	}
@@ -155,7 +157,7 @@ to quickly create a Cobra application.`,
 		var handler http.Handler
 		handler = router
 		handler = handlers.LoggingHandler(os.Stderr, handler)
-		err = http.ListenAndServe(address, handler)
+		err = http.ListenAndServe(config.Address, handler)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -176,7 +178,6 @@ func init() {
 	// and all subcommands, e.g.:
 	// serverCmd.PersistentFlags().String("foo", "", "A help for foo")
 
-	serverCmd.PersistentFlags().StringVar(&address, "address", "localhost:8080", "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&maxMemoryUsage, "max-memory-usage", "100M", "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&maxDiskUsage, "max-disk-usage", "1G", "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&cleanedDiskUsage, "cleaned-disk-usage", "800M", "Address to listen on")
