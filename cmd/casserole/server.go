@@ -21,20 +21,19 @@ import (
 	"os"
 
 	"code.cloudfoundry.org/bytefmt"
-	"github.com/kelseyhightower/envconfig"
 	"github.com/fkautz/casserole/cache/diskcache"
 	"github.com/fkautz/casserole/cache/httpserver"
 	"github.com/fkautz/casserole/cache/hydrator"
 	"github.com/fkautz/casserole/cache/memorycache"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/kelseyhightower/envconfig"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 // flags
 var (
-	cleanedDiskUsage string
 	diskCacheDir     string
 	diskCacheEnabled bool
 	maxDiskUsage     string
@@ -47,6 +46,7 @@ var (
 
 type Config struct {
 	Address string `default:"localhost:8080"`
+	CleanedDiskUsage string `default:"800M"`
 }
 
 var config Config
@@ -56,7 +56,6 @@ func InitializeConfig(cmd *cobra.Command) {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	viper.SetDefault("cleaned-disk-usage", "800M")
 	viper.SetDefault("disk-cache-dir", "./data")
 	viper.SetDefault("disk-cache-enabled", true)
 	viper.SetDefault("max-disk-usage", "1G")
@@ -66,9 +65,6 @@ func InitializeConfig(cmd *cobra.Command) {
 	viper.SetDefault("etcd", "")
 	viper.SetDefault("passthrough", "")
 
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "cleaned-disk-usage") {
-		viper.Set("cleaned-disk-usage", cleanedDiskUsage)
-	}
 	if cmd2.FlagChanged(cmd.PersistentFlags(), "disk-cache-dir") {
 		viper.Set("disk-cache-dir", diskCacheDir)
 	}
@@ -117,7 +113,7 @@ to quickly create a Cobra application.`,
 			if err != nil {
 				log.Fatalln("Unable to parse max-disk-usage", err)
 			}
-			cleanedSize, err := bytefmt.ToBytes(viper.GetString("cleaned-disk-usage"))
+			cleanedSize, err := bytefmt.ToBytes(config.CleanedDiskUsage)
 			if err != nil {
 				log.Fatalln("Unable to parse cleaned-disk-usage", err)
 			}
@@ -180,7 +176,6 @@ func init() {
 
 	serverCmd.PersistentFlags().StringVar(&maxMemoryUsage, "max-memory-usage", "100M", "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&maxDiskUsage, "max-disk-usage", "1G", "Address to listen on")
-	serverCmd.PersistentFlags().StringVar(&cleanedDiskUsage, "cleaned-disk-usage", "800M", "Address to listen on")
 	serverCmd.PersistentFlags().BoolVar(&diskCacheEnabled, "disk-cache-enabled", true, "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&diskCacheDir, "disk-cache-dir", "./data", "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&mirrorUrl, "mirror-url", "http://localhost:9000", "URL root to mirror")
