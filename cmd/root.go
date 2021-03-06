@@ -72,7 +72,7 @@ func initConfig() {
 	}
 }
 
-func flagChanged(flags *flag.FlagSet, key string) bool {
+func FlagChanged(flags *flag.FlagSet, key string) bool {
 	flag := flags.Lookup(key)
 	if flag == nil {
 		return false
