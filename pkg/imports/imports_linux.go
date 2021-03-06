@@ -20,6 +20,7 @@ import (
 	_ "github.com/golang/groupcache"
 	_ "github.com/gorilla/handlers"
 	_ "github.com/gorilla/mux"
+	_ "github.com/kelseyhightower/envconfig"
 	_ "github.com/pquerna/cachecontrol/cacheobject"
 	_ "github.com/spf13/cobra"
 	_ "github.com/spf13/pflag"
