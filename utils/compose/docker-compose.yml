@@ -12,6 +12,6 @@ services:
         depends_on:
             - etcd
         ports:
-            - "80"
+            - "80:80"
         environment:
             - UPSTREAM_SERVER=https://www.google.com
