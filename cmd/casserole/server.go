@@ -34,7 +34,6 @@ import (
 
 // flags
 var (
-	diskCacheDir     string
 	diskCacheEnabled bool
 	maxDiskUsage     string
 	maxMemoryUsage   string
@@ -47,6 +46,7 @@ var (
 type Config struct {
 	Address string `default:"localhost:8080"`
 	CleanedDiskUsage string `default:"800M"`
+	DiskCacheDir string `default:"./data"`
 }
 
 var config Config
@@ -56,7 +56,6 @@ func InitializeConfig(cmd *cobra.Command) {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	viper.SetDefault("disk-cache-dir", "./data")
 	viper.SetDefault("disk-cache-enabled", true)
 	viper.SetDefault("max-disk-usage", "1G")
 	viper.SetDefault("max-memory-usage", "100M")
@@ -65,9 +64,6 @@ func InitializeConfig(cmd *cobra.Command) {
 	viper.SetDefault("etcd", "")
 	viper.SetDefault("passthrough", "")
 
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "disk-cache-dir") {
-		viper.Set("disk-cache-dir", diskCacheDir)
-	}
 	if cmd2.FlagChanged(cmd.PersistentFlags(), "disk-cache-enabled") {
 		viper.Set("disk-cache-enabled", diskCacheEnabled)
 	}
@@ -117,7 +113,7 @@ to quickly create a Cobra application.`,
 			if err != nil {
 				log.Fatalln("Unable to parse cleaned-disk-usage", err)
 			}
-			persistentCache, err = diskcache.New(viper.GetString("disk-cache-dir"), int64(maxSize), int64(cleanedSize))
+			persistentCache, err = diskcache.New(config.DiskCacheDir, int64(maxSize), int64(cleanedSize))
 			if err != nil {
 				log.Fatalln("Unable to initialize disk cache", err)
 			}
@@ -177,7 +173,6 @@ func init() {
 	serverCmd.PersistentFlags().StringVar(&maxMemoryUsage, "max-memory-usage", "100M", "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&maxDiskUsage, "max-disk-usage", "1G", "Address to listen on")
 	serverCmd.PersistentFlags().BoolVar(&diskCacheEnabled, "disk-cache-enabled", true, "Address to listen on")
-	serverCmd.PersistentFlags().StringVar(&diskCacheDir, "disk-cache-dir", "./data", "Address to listen on")
 	serverCmd.PersistentFlags().StringVar(&mirrorUrl, "mirror-url", "http://localhost:9000", "URL root to mirror")
 	serverCmd.PersistentFlags().StringVar(&peeringAddress, "peering-address", "http://localhost:8000", "URL root to mirror")
 	serverCmd.PersistentFlags().StringSliceVar(&etcd, "etcd", []string{}, "URL root to mirror")
