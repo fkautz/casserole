@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cmd
+package main
 
 import (
+	cmd2 "github.com/fkautz/casserole/cmd"
 	"log"
 	"net/http"
 	"os"
@@ -44,6 +45,10 @@ var (
 	passthrough      []string
 )
 
+type Config struct {
+	Address string `default:":8080"`
+}
+
 func InitializeConfig(cmd *cobra.Command) {
 	viper.SetDefault("address", ":8080")
 	viper.SetDefault("cleaned-disk-usage", "800M")
@@ -56,34 +61,34 @@ func InitializeConfig(cmd *cobra.Command) {
 	viper.SetDefault("etcd", "")
 	viper.SetDefault("passthrough", "")
 
-	if flagChanged(cmd.PersistentFlags(), "address") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "address") {
 		viper.Set("address", address)
 	}
-	if flagChanged(cmd.PersistentFlags(), "cleaned-disk-usage") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "cleaned-disk-usage") {
 		viper.Set("cleaned-disk-usage", cleanedDiskUsage)
 	}
-	if flagChanged(cmd.PersistentFlags(), "disk-cache-dir") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "disk-cache-dir") {
 		viper.Set("disk-cache-dir", diskCacheDir)
 	}
-	if flagChanged(cmd.PersistentFlags(), "disk-cache-enabled") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "disk-cache-enabled") {
 		viper.Set("disk-cache-enabled", diskCacheEnabled)
 	}
-	if flagChanged(cmd.PersistentFlags(), "max-disk-usage") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "max-disk-usage") {
 		viper.Set("max-disk-usage", maxDiskUsage)
 	}
-	if flagChanged(cmd.PersistentFlags(), "max-meory-usage") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "max-meory-usage") {
 		viper.Set("max-memory-usage", maxMemoryUsage)
 	}
-	if flagChanged(cmd.PersistentFlags(), "mirror-url") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "mirror-url") {
 		viper.Set("mirror-url", mirrorUrl)
 	}
-	if flagChanged(cmd.PersistentFlags(), "peering-address") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "peering-address") {
 		viper.Set("peering-address", peeringAddress)
 	}
-	if flagChanged(cmd.PersistentFlags(), "etcd") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "etcd") {
 		viper.Set("etcd", etcd)
 	}
-	if flagChanged(cmd.PersistentFlags(), "passthrough") {
+	if cmd2.FlagChanged(cmd.PersistentFlags(), "passthrough") {
 		viper.Set("passthrough", passthrough)
 	}
 }
@@ -163,7 +168,7 @@ type appConfig struct {
 }
 
 func init() {
-	RootCmd.AddCommand(serverCmd)
+	cmd2.RootCmd.AddCommand(serverCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -186,4 +191,10 @@ func init() {
 	// is called directly, e.g.:
 	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
+}
+
+func main() {
+	if err := cmd2.RootCmd.Execute(); err != nil {
+		log.Panicln(err)
+	}
 }

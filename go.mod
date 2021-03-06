@@ -17,6 +17,7 @@ require (
 	github.com/spf13/cobra v0.0.7
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.7.1
+	github.com/stretchr/testify v1.3.0 // indirect
 	golang.org/x/net v0.0.0-20190827160401-ba9fcec4b297
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )

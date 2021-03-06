@@ -9,7 +9,7 @@ COPY ./pkg/imports/ ./pkg/imports/
 RUN go build ./pkg/imports/
 
 COPY . .
-RUN go install -v
+RUN go install -v ./cmd/casserole
 ENV UPSTREAM_SERVER http://www.example.com
 ENV ETCD http://etcd:2379
 EXPOSE 80 8000

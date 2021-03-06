@@ -20,7 +20,7 @@ jobs:
       run: go mod download
 
     - name: Build
-      run: go build -v .
+      run: go build -v ./...
     
     - name: Set up Kubernetes
       uses: engineerd/setup-kind@v0.5.0
