@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/fkautz/casserole/cache/hydrator"
 	"github.com/fkautz/casserole/cache/memorycache"
+	"github.com/fkautz/casserole/cmd"
 	"github.com/gorilla/mux"
-	"github.com/spf13/viper"
 	"io"
 	"log"
 	"net/http"
@@ -14,16 +14,18 @@ import (
 	"time"
 )
 
-func NewHttpHandler(cache hydrator.Cache, blockSize int64) http.Handler {
+func NewHttpHandler(config cmd.Config, cache hydrator.Cache, blockSize int64) http.Handler {
 	return &httpHandler{
 		cache:     cache,
 		blockSize: blockSize,
+		config: config,
 	}
 }
 
 type httpHandler struct {
 	cache     hydrator.Cache
 	blockSize int64
+	config cmd.Config
 }
 
 func (s *httpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +44,7 @@ func (s *httpHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	// get object
 	cacheEntry, err := s.cache.GetMetadata(request, r.Header)
-	canonicalRequest := viper.GetString("mirror-url") + "/" + request
+	canonicalRequest := s.config.MirrorUrl + "/" + request
 	if err != nil {
 		if err.Error() == "Not Cacheable" || err.Error() == "Chunked" {
 			log.Println("MISS", request)
