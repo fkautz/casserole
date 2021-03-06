@@ -15,6 +15,7 @@
 package main
 
 import (
+	"fmt"
 	cmd2 "github.com/fkautz/casserole/cmd"
 	"log"
 	"net/http"
@@ -29,62 +30,17 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
-// flags
-var (
-	diskCacheEnabled bool
-	maxDiskUsage     string
-	maxMemoryUsage   string
-	mirrorUrl        string
-	peeringAddress   string
-	etcd             []string
-	passthrough      []string
-)
-
-type Config struct {
-	Address string `default:"localhost:8080"`
-	CleanedDiskUsage string `default:"800M"`
-	DiskCacheDir string `default:"./data"`
-}
-
-var config Config
+var config cmd2.Config
 
 func InitializeConfig(cmd *cobra.Command) {
 	err := envconfig.Process("casserole", &config)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	viper.SetDefault("disk-cache-enabled", true)
-	viper.SetDefault("max-disk-usage", "1G")
-	viper.SetDefault("max-memory-usage", "100M")
-	viper.SetDefault("mirror-url", "http://localhost:9000")
-	viper.SetDefault("peering-address", "")
-	viper.SetDefault("etcd", "")
-	viper.SetDefault("passthrough", "")
 
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "disk-cache-enabled") {
-		viper.Set("disk-cache-enabled", diskCacheEnabled)
-	}
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "max-disk-usage") {
-		viper.Set("max-disk-usage", maxDiskUsage)
-	}
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "max-meory-usage") {
-		viper.Set("max-memory-usage", maxMemoryUsage)
-	}
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "mirror-url") {
-		viper.Set("mirror-url", mirrorUrl)
-	}
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "peering-address") {
-		viper.Set("peering-address", peeringAddress)
-	}
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "etcd") {
-		viper.Set("etcd", etcd)
-	}
-	if cmd2.FlagChanged(cmd.PersistentFlags(), "passthrough") {
-		viper.Set("passthrough", passthrough)
-	}
+	fmt.Println(config)
 }
 
 // serverCmd represents the server command
@@ -104,8 +60,8 @@ to quickly create a Cobra application.`,
 		blockSize := int64(2 * 1024 * 1024)
 
 		var persistentCache diskcache.Cache
-		if viper.GetBool("disk-cache-enabled") {
-			maxSize, err := bytefmt.ToBytes(viper.GetString("max-disk-usage"))
+		if config.DiskCacheEnabled {
+			maxSize, err := bytefmt.ToBytes(config.MaxDiskUsage)
 			if err != nil {
 				log.Fatalln("Unable to parse max-disk-usage", err)
 			}
@@ -119,7 +75,7 @@ to quickly create a Cobra application.`,
 			}
 		}
 
-		maxMemory, err := bytefmt.ToBytes(viper.GetString("max-memory-usage"))
+		maxMemory, err := bytefmt.ToBytes(config.MaxMemoryUsage)
 		if err != nil {
 			log.Fatalln("Unable to parse max-memory-usage", err)
 		}
@@ -128,15 +84,15 @@ to quickly create a Cobra application.`,
 			MaxMemoryUsage: int64(maxMemory),
 			BlockSize:      blockSize,
 			DiskCache:      persistentCache,
-			Hydrator:       hydrator.NewHydrator(viper.GetString("mirror-url")),
-			PeeringAddress: viper.GetString("peering-address"),
-			Etcd:           viper.GetStringSlice("etcd"),
-			PassThrough:    viper.GetStringSlice("passthrough"),
+			Hydrator:       hydrator.NewHydrator(config.MirrorUrl),
+			PeeringAddress: config.PeeringAddress,
+			Etcd:           config.Etcd,
+			PassThrough:    config.Passthrough,
 		}
 
 		cache := gcache.NewCache(cacheConfig)
 
-		cacheHandler := httpserver.NewHttpHandler(cache, blockSize)
+		cacheHandler := httpserver.NewHttpHandler(config, cache, blockSize)
 
 		router := mux.NewRouter()
 
@@ -169,14 +125,6 @@ func init() {
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// serverCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	serverCmd.PersistentFlags().StringVar(&maxMemoryUsage, "max-memory-usage", "100M", "Address to listen on")
-	serverCmd.PersistentFlags().StringVar(&maxDiskUsage, "max-disk-usage", "1G", "Address to listen on")
-	serverCmd.PersistentFlags().BoolVar(&diskCacheEnabled, "disk-cache-enabled", true, "Address to listen on")
-	serverCmd.PersistentFlags().StringVar(&mirrorUrl, "mirror-url", "http://localhost:9000", "URL root to mirror")
-	serverCmd.PersistentFlags().StringVar(&peeringAddress, "peering-address", "http://localhost:8000", "URL root to mirror")
-	serverCmd.PersistentFlags().StringSliceVar(&etcd, "etcd", []string{}, "URL root to mirror")
-	serverCmd.PersistentFlags().StringSliceVar(&passthrough, "passthrough", []string{}, "Regexes to ignore")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
       - env:
-        - name: UPSTREAM_SERVER
+        - name: CASSEROLE_UPSTREAMSERVER
           value: https://example.com
-        - name: ETCD
+        - name: CASSEROLE_ETCD
           value: http://etcd:2379
         image: fkautz/casserole:dev
         name: cache
