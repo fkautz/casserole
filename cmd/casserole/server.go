@@ -15,11 +15,11 @@
 package main
 
 import (
-	cmd2 "github.com/fkautz/casserole/cmd"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/fkautz/casserole/cmd"
 	"code.cloudfoundry.org/bytefmt"
 	"github.com/fkautz/casserole/cache/diskcache"
 	"github.com/fkautz/casserole/cache/httpserver"
@@ -30,7 +30,7 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-var config cmd2.Config
+var config cmd.Config
 
 func main() {
 	log.SetFlags(log.Flags() | log.Lshortfile)
