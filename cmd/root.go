@@ -14,15 +14,6 @@
 
 package cmd
 
-import (
-	"fmt"
-	"os"
-
-	"github.com/spf13/cobra"
-	flag "github.com/spf13/pflag"
-)
-
-
 type Config struct {
 	Address string `default:"localhost:8080"`
 	CleanedDiskUsage string `default:"800M"`
@@ -34,49 +25,4 @@ type Config struct {
 	PeeringAddress string `default"http://localhost:8000"`
 	Etcd []string `default:""`
 	Passthrough []string `default:""`
-}
-
-var cfgFile string
-
-// RootCmd represents the base command when called without any subcommands
-var RootCmd = &cobra.Command{
-	Use:   "casserole",
-	Short: "Distributed HTTP Cache",
-	Long: `Casserole is a distributed HTTP cache that uses group cache to
-	share the load between servers. An optional disk cache that integrates
-	with groupcache is also provided.`,
-}
-
-// Execute adds all child commands to the root command sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	if err := RootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(-1)
-	}
-}
-
-func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports Persistent Flags, which, if defined here,
-	// will be global for your application.
-
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.casserole.yaml)")
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	RootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-}
-
-func FlagChanged(flags *flag.FlagSet, key string) bool {
-	flag := flags.Lookup(key)
-	if flag == nil {
-		return false
-	}
-	return flag.Changed
 }

@@ -15,12 +15,11 @@
 package main
 
 import (
-	"fmt"
-	cmd2 "github.com/fkautz/casserole/cmd"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/fkautz/casserole/cmd"
 	"code.cloudfoundry.org/bytefmt"
 	"github.com/fkautz/casserole/cache/diskcache"
 	"github.com/fkautz/casserole/cache/httpserver"
@@ -29,111 +28,69 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/spf13/cobra"
 )
 
-var config cmd2.Config
+var config cmd.Config
 
-func InitializeConfig(cmd *cobra.Command) {
+func main() {
+	log.SetFlags(log.Flags() | log.Lshortfile)
+
 	err := envconfig.Process("casserole", &config)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	fmt.Println(config)
-}
+	blockSize := int64(2 * 1024 * 1024)
 
-// serverCmd represents the server command
-var serverCmd = &cobra.Command{
-	Use:   "server",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		log.SetFlags(log.Flags() | log.Lshortfile)
-
-		InitializeConfig(cmd)
-		blockSize := int64(2 * 1024 * 1024)
-
-		var persistentCache diskcache.Cache
-		if config.DiskCacheEnabled {
-			maxSize, err := bytefmt.ToBytes(config.MaxDiskUsage)
-			if err != nil {
-				log.Fatalln("Unable to parse max-disk-usage", err)
-			}
-			cleanedSize, err := bytefmt.ToBytes(config.CleanedDiskUsage)
-			if err != nil {
-				log.Fatalln("Unable to parse cleaned-disk-usage", err)
-			}
-			persistentCache, err = diskcache.New(config.DiskCacheDir, int64(maxSize), int64(cleanedSize))
-			if err != nil {
-				log.Fatalln("Unable to initialize disk cache", err)
-			}
-		}
-
-		maxMemory, err := bytefmt.ToBytes(config.MaxMemoryUsage)
+	var persistentCache diskcache.Cache
+	if config.DiskCacheEnabled {
+		maxSize, err := bytefmt.ToBytes(config.MaxDiskUsage)
 		if err != nil {
-			log.Fatalln("Unable to parse max-memory-usage", err)
+			log.Fatalln("Unable to parse max-disk-usage", err)
 		}
-
-		cacheConfig := gcache.Config{
-			MaxMemoryUsage: int64(maxMemory),
-			BlockSize:      blockSize,
-			DiskCache:      persistentCache,
-			Hydrator:       hydrator.NewHydrator(config.MirrorUrl),
-			PeeringAddress: config.PeeringAddress,
-			Etcd:           config.Etcd,
-			PassThrough:    config.Passthrough,
-		}
-
-		cache := gcache.NewCache(cacheConfig)
-
-		cacheHandler := httpserver.NewHttpHandler(config, cache, blockSize)
-
-		router := mux.NewRouter()
-
-		groupCacheProxyHandler := http.Handler(cacheHandler)
-		router.Handle("/{request:.*}", groupCacheProxyHandler)
-
-		// serve
-		//err = http.ListenAndServeTLS(address, "cert.pem", "key.pem", router)
-		//handler := lox.NewHandler(lox.NewMemoryCache(), router)
-		var handler http.Handler
-		handler = router
-		handler = handlers.LoggingHandler(os.Stderr, handler)
-		err = http.ListenAndServe(config.Address, handler)
+		cleanedSize, err := bytefmt.ToBytes(config.CleanedDiskUsage)
 		if err != nil {
-			log.Fatalln(err)
+			log.Fatalln("Unable to parse cleaned-disk-usage", err)
 		}
-	},
-}
-
-type appConfig struct {
-	urlRoot  string
-	listenOn string
-}
-
-func init() {
-	cmd2.RootCmd.AddCommand(serverCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// serverCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
-}
-
-func main() {
-	if err := cmd2.RootCmd.Execute(); err != nil {
-		log.Panicln(err)
+		persistentCache, err = diskcache.New(config.DiskCacheDir, int64(maxSize), int64(cleanedSize))
+		if err != nil {
+			log.Fatalln("Unable to initialize disk cache", err)
+		}
 	}
+
+	maxMemory, err := bytefmt.ToBytes(config.MaxMemoryUsage)
+	if err != nil {
+		log.Fatalln("Unable to parse max-memory-usage", err)
+	}
+
+	cacheConfig := gcache.Config{
+		MaxMemoryUsage: int64(maxMemory),
+		BlockSize:      blockSize,
+		DiskCache:      persistentCache,
+		Hydrator:       hydrator.NewHydrator(config.MirrorUrl),
+		PeeringAddress: config.PeeringAddress,
+		Etcd:           config.Etcd,
+		PassThrough:    config.Passthrough,
+	}
+
+	cache := gcache.NewCache(cacheConfig)
+
+	cacheHandler := httpserver.NewHttpHandler(config, cache, blockSize)
+
+	router := mux.NewRouter()
+
+	groupCacheProxyHandler := http.Handler(cacheHandler)
+	router.Handle("/{request:.*}", groupCacheProxyHandler)
+
+	// serve
+	//err = http.ListenAndServeTLS(address, "cert.pem", "key.pem", router)
+	//handler := lox.NewHandler(lox.NewMemoryCache(), router)
+	var handler http.Handler
+	handler = router
+	handler = handlers.LoggingHandler(os.Stderr, handler)
+	err = http.ListenAndServe(config.Address, handler)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 }
