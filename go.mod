@@ -34,7 +34,7 @@ require (
 	github.com/pquerna/cachecontrol v0.0.0-20180517163645-1555304b9b35
 	github.com/prometheus/client_golang v0.9.3 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
-	github.com/stretchr/testify v1.3.0
+	github.com/stretchr/testify v1.8.1
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 // indirect
 	github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2 // indirect
 	go.etcd.io/bbolt v1.3.2 // indirect
